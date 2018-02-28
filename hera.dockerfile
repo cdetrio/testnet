@@ -1,11 +1,17 @@
-FROM ethereum/cpp-build-env
+FROM alpine
 
-ENV BUILD_TYPE=Release
-ENV CXX=clang++-5.0
-ENV CC=clang-5.0
-ENV GENERATOR=Ninja
-
-# WORKDIR is /home/builder
+RUN apk add --no-cache \
+        libstdc++ \
+        gmp \
+        leveldb --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+    && apk add --no-cache --virtual .build-deps \
+        git \
+        cmake \
+        g++ \
+        make \
+        linux-headers \
+        leveldb-dev --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+    && sed -i -E -e 's|#warning|//#warning|' /usr/include/sys/poll.h
 
 RUN apk add --no-cache \
         bash jq bc \
