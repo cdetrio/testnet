@@ -29,7 +29,7 @@ RUN cd cpp-ethereum && git submodule update --init
 RUN cd cpp-ethereum/hera && git pull origin master
 
 # pre-build cpp-eth to cache as a docker layer
-RUN mkdir build
+RUN mkdir -p build
 RUN cd build && cmake ../cpp-ethereum -DCMAKE_BUILD_TYPE=RelWithDebInfo -DHERA=ON
 RUN cd build && make -j8
 
@@ -49,7 +49,7 @@ RUN cd cpp-ethereum/hera && echo "{}"                                    \
           | jq ".+ {\"commit\":\"$(git rev-parse HEAD)\"}"               \
           > /hera-version.json
 
-RUN mkdir build
+RUN mkdir -p build
 RUN cd build && cmake ../cpp-ethereum -DCMAKE_BUILD_TYPE=RelWithDebInfo -DHERA=ON
 RUN cd build && make -j8
 RUN cd build && make install
