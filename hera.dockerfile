@@ -26,6 +26,7 @@ RUN git clone https://github.com/ethereum/cpp-ethereum --branch develop --single
 # pin cpp-ethereum to commit ee0c6776..
 RUN cd cpp-ethereum && git reset --hard ee0c6776c01b09045a379220c7e490000dae9377
 RUN cd cpp-ethereum && git submodule update --init
+RUN cd cpp-ethereum/hera && git pull origin master
 
 # pre-build cpp-eth to cache as a docker layer
 RUN mkdir build
