@@ -14,6 +14,7 @@ echo "running eth..."
   --no-bootstrap \
   --mining on \
   --mining-threads 1 \
+  --ask 1 # minimum gas price is 1 wei
   --address 0x031159dF845ADe415202e6DA299223cb640B9DB0 \
   --config /ewasm-testnet-cpp-config.json \
   --verbosity 12 \
