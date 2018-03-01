@@ -21,7 +21,13 @@ RUN apk add --no-cache \
         libcurl \
         libmicrohttpd
 
-RUN git clone --recursive https://github.com/ethereum/cpp-ethereum --branch develop --single-branch --depth 1
+#RUN git clone --recursive https://github.com/ethereum/cpp-ethereum --branch develop --single-branch --depth 1
+RUN git clone https://github.com/ethereum/cpp-ethereum --branch develop --single-branch
+RUN cd cpp-ethereum && git reset --hard ee0c6776c01b09045a379220c7e490000dae9377
+RUN cd cpp-ethereum && git submodule update --init
+
+# should pre-build cpp eth to cache docker layer
+
 RUN cd cpp-ethereum/hera \
   && git pull origin master
 
@@ -42,6 +48,7 @@ RUN cd build && cmake ../cpp-ethereum -DCMAKE_BUILD_TYPE=RelWithDebInfo -DHERA=O
 RUN cd build && make -j8
 RUN cd build && make install
 
+RUN cp cpp-ethereum/scripts/jsonrpcproxy.py /jsonrpcproxy.py
 
 ADD ewasm-testnet-cpp-config.json /ewasm-testnet-cpp-config.json
 
